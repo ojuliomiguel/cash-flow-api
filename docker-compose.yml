@@ -1,0 +1,12 @@
+version: "3.9"
+services: 
+  cash-flow-db:
+    volumes: 
+      - /var/lib/pg_cash_flow/pgdata:/var/lib/postgresql/data
+    image: postgres
+    ports:
+      - '5477:5432'
+    environment:
+      POSTGRES_USER: julio
+      POSTGRES_PASSWORD: code42
+      POSTGRES_DB: cash_flow_db
