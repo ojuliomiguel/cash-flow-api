@@ -5,6 +5,10 @@
 Aplicação para controlar fluxo diário de caixa com lançamentos (débitos e créditos) e
 gerar relatórios com saldo diário consolidado.
 
+# Desenho da aplicação
+
+![img](/docs/system-design.png)
+
 ## Tech
 
 - node.js - javascript runtime
