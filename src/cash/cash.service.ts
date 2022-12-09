@@ -21,10 +21,17 @@ export class CashService {
     }
 
     if (balanceAfter.balance <= 0) {
-      throw new HttpException('Saldo Insuficiente', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        `Saldo insuficiente. Balanço: R$ ${lastestEntry.balance}`, 
+        HttpStatus.BAD_REQUEST
+      );
     }
     
     return this.cashRepository.create({...entry, ...balanceAfter});
+  }
+
+  public async getConsolidateDailyBalance(date: string, {page, limit}) {
+    return this.cashRepository.getConsolidateDailyBalance(date, {page, limit});
   }
 
   async onModuleInit() {
@@ -33,7 +40,7 @@ export class CashService {
 
   private validateOperation(createEntryDto: CreateEntryDto): EntryData {
     const { amount, type, description } = createEntryDto;
-    let money = currency(amount,{precision: 7, errorOnInvalid: true});
+    let money = currency(amount,{ precision: 7, errorOnInvalid: true });
 
     const entryData = {
       cash_in: 0,
@@ -41,12 +48,12 @@ export class CashService {
       description
     }
 
-    if (type === EntryType.CREDIT && amount > 0) {
+    if (type === EntryType.CREDIT && money.value > 0) {
       entryData.cash_in = money.value;
       return entryData;
     }
 
-    if (type === EntryType.DEBIT && amount > 0) {
+    if (type === EntryType.DEBIT && money.value > 0) {
       money = 
         currency(amount,{precision: 7, errorOnInvalid: true}).multiply(-1);
         entryData.cash_out = money.value;
@@ -54,7 +61,7 @@ export class CashService {
     }
 
     throw new HttpException(
-      'Operação inválida. O valor deve ser sempre positivoo', 
+      'Operação inválida. O valor deve ser sempre positivo', 
       HttpStatus.BAD_REQUEST
     );
     
