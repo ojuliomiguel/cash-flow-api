@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpCode, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Cash } from '../entities/cash.entity';
@@ -38,7 +38,14 @@ export class CashRepository {
       .orderBy('cash.created_at', 'ASC')
       .getOne();
 
-      entry.balance = toMoney(entry.balance).value
+    if (!entry) {
+      throw new HttpException(
+        'Não há nenhum registro para a data especificada',
+        HttpStatus.NOT_FOUND
+      );
+    }  
+
+    entry.balance = toMoney(entry.balance).value
     return entry;
   }
 
