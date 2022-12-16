@@ -62,6 +62,14 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
+## Testes:
+
+Unidade testada: `src/cash/cash.service.spec.ts`
+
+```bash
+yarn test
+```
+
 ### Endpoints:
 
 Endpoint base `http://localhost:3777`
