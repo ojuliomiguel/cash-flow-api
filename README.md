@@ -67,7 +67,7 @@ $ yarn start:prod
 Unidade testada: `src/cash/cash.service.spec.ts`
 
 ```bash
-yarn test
+$  yarn test
 ```
 
 ### Endpoints:
